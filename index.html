@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special for You 🤍</title>
+    <!-- Library Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #ffe6eb, #ffc8d6);
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .floating-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .heart-particle {
+            position: absolute;
+            color: rgba(255, 105, 180, 0.4);
+            font-size: 20px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        .card-container {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 35px 25px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.3);
+            border: 3px solid #ffb6c1;
+            max-width: 380px;
+            width: 90%;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        #page1 {
+            display: block;
+        }
+
+        /* Tombol Aesthetic Bersih Tanpa Inisial M */
+        .btn-aesthetic {
+            background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(255, 182, 193, 0.6);
+            transition: 0.3s;
+            margin-top: 15px;
+            display: inline-block;
+            letter-spacing: 1px;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .btn-aesthetic:hover {
+            transform: scale(1.08);
+            background: linear-gradient(135deg, #ff69b4, #ffb6c1);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.8);
+        }
+
+        #page2 {
+            display: none;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        #page2::-webkit-scrollbar {
+            width: 5px;
+        }
+        #page2::-webkit-scrollbar-thumb {
+            background: #ffb6c1;
+            border-radius: 10px;
+        }
+
+        .cute-text {
+            color: #c71585;
+            font-size: 13.5px;
+            line-height: 1.6;
+            margin: 12px 0;
+            font-weight: 700;
+        }
+
+        /* Box Puisi Manis Sifat Dia */
+        .poetry-box {
+            background: #fff5f7;
+            padding: 12px;
+            border-radius: 15px;
+            margin-top: 10px;
+            border: 1px solid #ffb6c1;
+            font-size: 12px;
+            color: #b05a7a;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .lyrics-box {
+            background: #fff0f3;
+            padding: 12px;
+            border-radius: 15px;
+            font-size: 12.5px;
+            color: #d87093;
+            margin-top: 12px;
+            border: 1px dashed #ff69b4;
+            box-shadow: inset 0 2px 5px rgba(255, 182, 193, 0.3);
+        }
+
+        .quiz-box {
+            background: #fff5f7;
+            padding: 12px;
+            border-radius: 15px;
+            margin-top: 12px;
+            border: 1px solid #ffb6c1;
+            font-size: 12px;
+            color: #b05a7a;
+            text-align: left;
+        }
+
+        .quiz-btn {
+            background: #ffffff;
+            color: #d87093;
+            border: 1px solid #ffb6c1;
+            padding: 6px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 11px;
+            margin: 3px;
+            display: inline-block;
+            transition: 0.2s;
+        }
+
+        .quiz-btn:hover {
+            background: #ffb6c1;
+            color: white;
+        }
+
+        /* Area Tombol "Iya dong" yang Kabur 3x */
+        .runaway-container {
+            margin-top: 12px;
+            position: relative;
+            height: 55px;
+        }
+
+        .btn-runaway {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            padding: 9px 22px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 12.5px;
+            font-weight: 700;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: 0.1s ease;
+            box-shadow: 0 4px 12px rgba(255, 105, 180, 0.4);
+        }
+
+        .teaser-text {
+            font-size: 11px;
+            color: #ff1493;
+            margin-top: 4px;
+            min-height: 16px;
+            font-weight: 700;
+        }
+
+        .sticker-anim {
+            font-size: 55px;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-8px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="floating-bg" id="bgParticles">
+        <div class="heart-particle" style="left: 10%; animation-duration: 5s;">💖</div>
+        <div class="heart-particle" style="left: 30%; animation-duration: 7s; animation-delay: 1s;">✨</div>
+        <div class="heart-particle" style="left: 50%; animation-duration: 6s; animation-delay: 2s;">🤍</div>
+        <div class="heart-particle" style="left: 70%; animation-duration: 8s; animation-delay: 0.5s;">💗</div>
+        <div class="heart-particle" style="left: 90%; animation-duration: 5.5s; animation-delay: 1.5s;">✨</div>
+    </div>
+
+    <div class="card-container">
+
+        <!-- HALAMAN 1 -->
+        <div id="page1">
+            <div class="sticker-anim">🐱💖</div>
+            <p class="cute-text" style="font-size: 16px; margin-top: 15px;">cobaa ngana klik tombol dibawahh</p>
+            
+            <button class="btn-aesthetic" onclick="startSurprise()">
+                ✨ open it
+            </button>
+        </div>
+
+        <!-- HALAMAN 2 -->
+        <div id="page2">
+            <div class="sticker-anim">🧸✨</div>
+            
+            <!-- Puisi Manis Sifat Dia -->
+            <div class="poetry-box">
+                "Ada cara sederhana saat kamu bicara,<br>
+                Perhatian kecil yang bikin suasana mereda.<br>
+                Sifat tulusmu itu sungguh luar biasa,<br>
+                Selalu berhasil bikin hari jadi berwarna. 🤍✨"<br><br>
+                <span style="font-style: italic; font-weight: bold; color: #c71585;">- cinta</span>
+            </div>
+
+            <!-- Mini Kuis Interaktif -->
+            <div class="quiz-box">
+                <div><strong>Kuis Santai:</strong> Pilih yang bener ya!</div>
+                <div style="margin-top: 6px;">
+                    <button class="quiz-btn" onclick="alert('Kurang tepat wkwk 😜')">A. Minum es teh</button>
+                    <button class="quiz-btn" onclick="alert('Hampir benar!')">B. Main game</button>
+                    <button class="quiz-btn" onclick="alert('Bener banget! Jawabannya: Mikirin kamu 😆💗')">C. Mikirin kamu</button>
+                </div>
+            </div>
+
+            <!-- Box Tema Lagu -->
+            <div class="lyrics-box" id="lyricsDisplay">
+                ♪ Memutar lagu: Last Night on Earth... ♪
+            </div>
+
+            <!-- Pertanyaan dengan Tombol "Iya dong" yang Kabur 3x -->
+            <div class="cute-text" style="font-size: 12px; margin-top: 12px;">Jujur, kita berdua cocok kan?</div>
+            
+            <div class="runaway-container">
+                <button class="btn-runaway" id="btnIya" onclick="handleRunaway()">Iya dong!</button>
+            </div>
+            <div class="teaser-text" id="teaserText"></div>
+        </div>
+
+    </div>
+
+    <!-- AUDIO PEMUTAR LAGU -->
+    <audio id="bgm" preload="auto">
+        <source src="lagu.mp3" type="audio/mpeg">
+        Browser kamu tidak mendukung audio.
+    </audio>
+
+    <script>
+        const vibesText = [
+            "🎵 (Dengerin petikan gitarnya yang santai...) 🎵",
+            "✨ 'Hear my heart beating 'cause you are the one...' ✨",
+            "🎵 Menemani harimu yang sibuk tapi seru...",
+            "🤍 'I am whispering to say... I love you...' 🤍",
+            "🎶 (Semoga hari ini menyenangkan buatmu!) 🎶"
+        ];
+
+        function startSurprise() {
+            document.getElementById('page1').style.display = 'none';
+            document.getElementById('page2').style.display = 'block';
+
+            confetti({
+                particleCount: 120,
+                spread: 80,
+                origin: { y: 0.5 },
+                colors: ['#ff69b4', '#ff1493', '#ffffff', '#ffb6c1', '#ffc0cb']
+            });
+
+            const audio = document.getElementById('bgm');
+            audio.currentTime = 0;
+            audio.play().catch(error => {
+                console.log("Audio diblokir browser:", error);
+            });
+
+            let index = 0;
+            const lyricBox = document.getElementById('lyricsDisplay');
+            
+            setInterval(() => {
+                index = (index + 1) % vibesText.length;
+                lyricBox.innerText = vibesText[index];
+            }, 4000);
+        }
+
+        let escapeCount = 0;
+        const teasingTexts = [
+            "Eh, kok nggak kenaaa! 😜",
+            "Wlee, tangkap aku dulu dong! 🏃‍♀️💨",
+            "Hampir kena ya? Coba kejar lagi wkwk 🤭"
+        ];
+
+        function handleRunaway() {
+            const btnIya = document.getElementById('btnIya');
+            const teaserText = document.getElementById('teaserText');
+
+            if (escapeCount < 3) {
+                teaserText.innerText = teasingTexts[escapeCount];
+                const randomX = Math.floor(Math.random() * 180) - 90;
+                const randomY = Math.floor(Math.random() * 40) - 20;
+                btnIya.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                escapeCount++;
+            } else {
+                teaserText.innerText = "Yaelah tertangkap juga! 😆✨";
+                btnIya.style.transform = `translate(0px, 0px)`;
+                btnIya.style.background = "#ff1493";
+                alert('Wah, hebat banget bisa ketangkap setelah dikejar-kejar! Berarti fix emang cocok ya 😆✨💗');
+            }
+        }
+    </script>
+
+</body>
+</html>
